@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 const maiorMenor = {
   nada: 0,
   maior: 1,
@@ -21,8 +20,9 @@ export default function Home() {
     return vetorValores.map((value, index) => {
       --quantidadeOperacoes
       return (
-        <>
-          <input key={index} type={"number"} value={value} onChange={event => atualizarValorFuncaoObjetivo(event.target.value, index)} />
+        <span key={index}>
+          <input className="max-w-[10%] p-2 m-2 rounded-2xl shadow-md"
+          type={"number"} value={value} onChange={event => atualizarValorFuncaoObjetivo(event.target.value, index)} />
           <math>
             <mrow>
               <msub>
@@ -32,7 +32,7 @@ export default function Home() {
               {quantidadeOperacoes >= 0 ? <mo>+</mo> : <mo></mo>}
             </mrow>
           </math>
-        </>
+        </span>
       )
     })
   }
@@ -52,16 +52,18 @@ export default function Home() {
   function exibirRestricoes(matrizRestricoes) {
     const result = matrizRestricoes.map((linha, index) => {
       return (
-        <div key={index}>
-          <math>
+        <div key={index} className="p-2 m-2">
+          <math  className="mr-3">
             <mrow> <msub> <mi>R</mi> <mn>{index}</mn> </msub> </mrow>
           </math>
           {exibirRestricoesEmFormaMatematica(linha, index)}
-          <select name="menoroumanior" onChange={e => atualizarMaiorMenorRestricao(e.target.value, index)}>
-            <option value={1} selected> {">="} </option>
+          <select className="button-55"
+          name="menoroumanior" defaultValue={1} onChange={e => atualizarMaiorMenorRestricao(e.target.value, index)}>
+            <option value={1}> {">="} </option>
             <option value={-1}> {"<="} </option>
           </select>
-          <input key={index} type={"number"} value={limiteRestricao[index]} onChange={e => atualizarValorLimiteRestricao(e.target.value, index)} />
+          <input className="max-w-[10%] p-2 m-2 rounded-2xl shadow-md"
+          key={index} type={"number"} value={limiteRestricao[index]} onChange={e => atualizarValorLimiteRestricao(e.target.value, index)} />
         </div>
       )
     })
@@ -74,8 +76,9 @@ export default function Home() {
     return vetorValores.map((value, indiceLinhaY) => {
       --quantidadeOperacoes
       return (
-        <>
-          <input key={indiceLinhaY} type={"number"} value={value} onChange={event => atualizarValorRestricao(event.target.value, indiceLinhaX, indiceLinhaY)} />
+        <span key={indiceLinhaY} >
+          <input className="max-w-[10%] p-2 m-2 rounded-2xl shadow-md"
+          type={"number"} value={value} onChange={event => atualizarValorRestricao(event.target.value, indiceLinhaX, indiceLinhaY)} />
           <math>
             <mrow>
               <msub>
@@ -85,7 +88,7 @@ export default function Home() {
               {quantidadeOperacoes >= 0 ? <mo>+</mo> : <mo></mo>}
             </mrow>
           </math>
-        </>
+        </span>
       )
     })
   }
@@ -137,7 +140,7 @@ export default function Home() {
       --quantidadeOperacoes
       return (
         <>
-          <math>
+          <math key={index}>
             <mrow>
               <msub>
                 <mi>{value}</mi>
@@ -165,15 +168,15 @@ export default function Home() {
       return
     // realiza a mesma operacao de inversao que acontece com a funcao objetivo
     const result = transposta.map((linha, index) => {
-      if (linha == []) 
-        return 
+      if (linha == [])
+        return
       return (
         <div key={index}>
-          <math>
+          <math className="mr-3">
             <mrow> <msub> <mi>R</mi> <mn>{index}</mn> </msub> </mrow>
           </math>
           {exibirRestricoesEmFormaMatematicaSemInput(linha, index)}
-          {maiorOuMenorRestricao[index] == maiorMenor.maior ? "<=" : ">=" }
+          {maiorOuMenorRestricao[index] == maiorMenor.maior ?  " <= " : " >= "}
           {funcaObjetivo[index]}
         </div>
       )
@@ -183,15 +186,15 @@ export default function Home() {
 
   function gerarTransposta(matrix) {
     debugger
-    if ( matrix == 0)
+    if (matrix == 0)
       return []
-    
+
     const linhas = matrix.length
     const colunas = matrix[0].length
     let arr = new Array(colunas)
 
     for (let i = 0; i < colunas; i++) {
-      arr[i] = new Array(linhas)  
+      arr[i] = new Array(linhas)
     }
 
     for (let i = 0; i < linhas; i++) {
@@ -210,7 +213,7 @@ export default function Home() {
       return (
         <>
           {value}
-          <math>
+          <math key={indiceLinhaY}>
             <mrow>
               <msub>
                 <mi>Y</mi>
@@ -227,48 +230,56 @@ export default function Home() {
   return (
     <>
       <div>
-        <div>
-          <section> Funcao objetivo: </section>
-          <select name="select" onChange={e => atualizaMaiorMenorFuncaoObjetivo(e.target.value)}>
-            <option value={1} selected> MaxZ </option>
-            <option value={-1}> MinZ </option>
-          </select>
-          <i> = </i>
-          {exibirValoresEmFormaMatematica(funcaObjetivo)}
-          <section>
-            <input type={"button"} value={"Adicionar Variavel"} onClick={() => adicionarVariaveisFuncaoObjetivo()} />
-          </section>
+        <div className="flex flex-col justify-center items-center shadow-lg rounded-lg" 
+        style={{ backgroundColor: 'yellow'}}>
+          <div className="p-8 text-2xl"> Funcao objetivo </div>
+          <div className="rounded-lg border-slate-300">
+            <select className="button-55"
+            name="select" defaultValue={1} onChange={e => atualizaMaiorMenorFuncaoObjetivo(e.target.value)}>
+              <option value={1}> MaxZ </option>
+              <option value={-1}> MinZ </option>
+            </select>
+            <i> = </i>
+            {exibirValoresEmFormaMatematica(funcaObjetivo)}
+            <section className="p-5">
+              <input className="button-55"
+              type={"button"} value={"Adicionar Variavel"} onClick={() => adicionarVariaveisFuncaoObjetivo()} />
+            </section>
+          </div>
         </div>
 
         <br />
 
-        <div>
-          <section> Restrições: </section>
+        <div className="flex flex-col justify-center items-center shadow-lg rounded-lg" 
+        style={{backgroundColor: 'orange'}}>
+          <div className="p-8 text-2xl"> Restrições </div>
           {exibirRestricoes(restricoes)}
-          <section>
-            <input type={"button"} value={"Adicionar Restrição"} onClick={() => adicionarRestricao()} />
+          <section className="p-5">
+            <input className="button-55"
+            type={"button"} value={"Adicionar Restrição"} onClick={() => adicionarRestricao()} />
           </section>
         </div>
 
         <br />
 
-        <div>
-          <section>
-            Resultado:
-          </section>
+        <div className="flex flex-col justify-center items-center shadow-lg rounded-lg"
+        style={{backgroundColor:'#ffcb9b'}}>
+          <div className="p-8 text-2xl">
+            Resultado
+          </div>
 
-          <div>
-            <div>
+          <div className="flex text-2xl" style={{backgroundColor:'#ffb16f'}}>
+            <div className="shadow-lg rounded-lg min-w-[300px] p-3 m-3">
               <section>
-                Funcao Objetivo:
+                Funcao Objetivo
               </section>
               {generateFuncaoObjetivoDualidade()}
             </div>
 
-            <div>
-              <section>
-                Restrições:
-              </section>
+            <div className="shadow-lg rounded-lg min-w-[300px] p-3 m-3">
+              <div>
+                Restrições
+              </div>
               {gerarRestricoesDualidade()}
             </div>
           </div>
