@@ -176,7 +176,7 @@ export default function Home() {
             <mrow> <msub> <mi>R</mi> <mn>{index}</mn> </msub> </mrow>
           </math>
           {exibirRestricoesEmFormaMatematicaSemInput(linha, index)}
-          {maiorOuMenorRestricao[index] == maiorMenor.maior ?  " <= " : " >= "}
+          {maiorOuMenorRestricao[index] == undefined ? maximiza >= 1 ? ">=" : "<=" : maiorOuMenorRestricao[index] == maiorMenor.maior ?  " <= " : " >= "}
           {funcaObjetivo[index]}
         </div>
       )
